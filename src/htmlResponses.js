@@ -30,6 +30,7 @@ const getCss = (request, response) => {
 
 // does nothing right now
 const getFavicon = (request, response) => {
+	response.writeHead(200, { 'Content-Type': 'text/css' });
   response.end();
 };
 

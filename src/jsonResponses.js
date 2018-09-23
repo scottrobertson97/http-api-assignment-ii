@@ -25,7 +25,7 @@ const notFound = (request, response) => {
     return respondJSONMeta(request, response, 404);
   }
   const responseJSON = {
-    message: 'Name and age are both required.',
+    message: 'The page you are loolking for was not found.',
     id: 'notFound',
   };
 

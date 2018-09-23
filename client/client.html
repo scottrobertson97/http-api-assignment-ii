@@ -47,6 +47,9 @@
           return;
         case 400: //bad request
           content.innerHTML = `<b>Bad Request</b>`;
+					break;
+				case 404: //bad request
+          content.innerHTML = `<b>Resource Not Found</b>`;
           break;
         default: //any other status code
           content.innerHTML = `Error code not implemented by client.`;
@@ -101,16 +104,40 @@
       e.preventDefault();
       //return false to prevent the browser from trying to change page
       return false;
+		};
+		
+		//function to send an xhr request
+    const sendRequest = (e, userForm) => {			
+			const url = userForm.querySelector('#urlField').value;
+			const method = userForm.querySelector('#methodSelect').value;
+
+      //create a new xhr (ajax) request. 
+      //Remember that these are ASYNCHRONOUS
+      const xhr = new XMLHttpRequest();
+      //set the xhr to a request to a certain URL
+      xhr.open(method, url);
+      //Set the accept headers to the desired response mime type
+      //Server does NOT have to support this. It is a gentle request.
+      xhr.setRequestHeader ("Accept", 'application/json');
+
+      //When the xhr loads, call handleResponse and pass the xhr object
+      xhr.onload = () => handleResponse(xhr);
+      
+      //send our ajax request to the server
+			xhr.send();
+			
+			//prevent the browser's default action (to send the form on its own)
+      e.preventDefault();
+      //return false to prevent the browser from trying to change page
+      return false;
     };
 
 		const init = () => {
-			const userForm = document.querySelector("#userForm");
+			const userForm = document.querySelector("#userForm");			
+			userForm.addEventListener('submit', (e) => sendRequest(e, userForm));
 
-			const methodSelect = document.querySelector("#methodSelect");
-			methodSelect.addEventListener('change', (e) => userForm.method = e.target.value);
-
-			const urlFieldSelect = = document.querySelector("#methodSelect");
-			urlFieldSelect.addEventListener('change', (e) => userForm.action = e.target.value);
+			const nameForm = document.querySelector('#nameForm');
+			nameForm.addEventListener('submit', (e) => sendPost(e, nameForm));
 		};
 
 		window.onload = init;
@@ -120,21 +147,21 @@
 <body>
 	<section id="top">
 		<h3>POST Status Code Tests</h3>
-		<form id="nameForm" action="/addUser" method="post">
+		<form id="nameForm" action="/addUser" method="POST">
 			<label for="name">Name: </label>
 			<input id="nameField" type="text" name="name" />
 			<label for="age">Age: </label>
 			<input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
 			<input type="submit" value="Add User" />
 		</form>
-		<form id="userForm" action="/getUsers" method="get">
+		<form id="userForm" action="/getUsers" method="GET">
 			<select id='urlField'>
 				<option value='/getUsers'>/getUsers</option>
 				<option value='/notReal'>/notReal</option>
 			</select>
 			<select id="methodSelect">
-				<option value="get">GET</option>
-				<option value="head">HEAD</option>
+				<option value="GET">GET</option>
+				<option value="HEAD">HEAD</option>
 			</select>
 			<input type="submit" value="Get User" />
 		</form>
