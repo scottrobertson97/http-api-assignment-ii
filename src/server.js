@@ -32,7 +32,7 @@ const handlePost = (request, response, parsedUrl) => {
 
     // if the upload stream errors out, just throw a
     // a bad request and send it back
-    request.on('error', (err) => {
+    request.on('error', (/*err*/) => {
       //console.dir(err);
       res.statusCode = 400;
       res.end();
