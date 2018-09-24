@@ -56,7 +56,8 @@
           break;
       }
       
-      parseJSON(xhr, content);
+      if(xhr.response)
+        parseJSON(xhr, content);
 		};
 
 		//function to send our post request
