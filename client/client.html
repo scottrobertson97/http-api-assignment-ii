@@ -55,9 +55,8 @@
           content.innerHTML = `Error code not implemented by client.`;
           break;
       }
-			if(xhr.response){
-				parseJSON(xhr, content);
-			}
+      
+      parseJSON(xhr, content);
 		};
 
 		//function to send our post request
@@ -108,7 +107,9 @@
 		
 		//function to send an xhr request
     const sendRequest = (e, userForm) => {			
-			const url = userForm.querySelector('#urlField').value;
+      //get url from the form, the vaule in the select
+      const url = userForm.querySelector('#urlField').value;
+      //get the request method
 			const method = userForm.querySelector('#methodSelect').value;
 
       //create a new xhr (ajax) request. 
@@ -133,9 +134,11 @@
     };
 
 		const init = () => {
+      //set up submit button for user form
 			const userForm = document.querySelector("#userForm");			
 			userForm.addEventListener('submit', (e) => sendRequest(e, userForm));
 
+      //set up submit button for name form
 			const nameForm = document.querySelector('#nameForm');
 			nameForm.addEventListener('submit', (e) => sendPost(e, nameForm));
 		};

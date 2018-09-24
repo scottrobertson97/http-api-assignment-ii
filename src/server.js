@@ -24,7 +24,7 @@ const urlStruct = {
 const handlePost = (request, response, parsedUrl) => {
   // if post is to /addUser (our only POST url)
   if (parsedUrl.pathname === '/addUser') {
-		const res = response;
+    const res = response;
 
     // uploads come in as a byte stream that we need
     // to reassemble once it's all arrived
@@ -33,7 +33,7 @@ const handlePost = (request, response, parsedUrl) => {
     // if the upload stream errors out, just throw a
     // a bad request and send it back
     request.on('error', (err) => {
-      console.dir(err);
+      //console.dir(err);
       res.statusCode = 400;
       res.end();
     });
@@ -70,15 +70,14 @@ const onRequest = (request, response) => {
   // check if method was POST, otherwise assume GET
   // for the sake of this example
   if (request.method === 'POST') {
-		return handlePost(request, response, parsedUrl);
-	}
-		
-  if (urlStruct[parsedUrl.pathname]) {
-		console.log(parsedUrl.pathname);
-		return urlStruct[parsedUrl.pathname](request, response);		
+    return handlePost(request, response, parsedUrl);
   }
 
-	return urlStruct.notFound(request, response);
+  if (urlStruct[parsedUrl.pathname]) {
+    return urlStruct[parsedUrl.pathname](request, response);
+  }
+
+  return urlStruct.notFound(request, response);
 };
 
 // start HTTP server

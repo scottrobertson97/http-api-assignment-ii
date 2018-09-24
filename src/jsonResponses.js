@@ -32,6 +32,7 @@ const notFound = (request, response) => {
   return respondJSON(request, response, 404, responseJSON);
 };
 
+//function to get the users
 const getUsers = (request, response) => {
   if (request.method === 'HEAD') {
     return respondJSONMeta(request, response, 200);
